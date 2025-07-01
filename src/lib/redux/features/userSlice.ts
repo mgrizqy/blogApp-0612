@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IUser {
-  firstname: string;
-  lastname: string;
+  ObjectId:string;
+  firstname?: string;
+  lastname?: string;
   username: string;
   email: string;
   phone?: string;
@@ -13,8 +14,7 @@ interface IUser {
 }
 
 const initialData: IUser = {
-  firstname: "",
-  lastname: "",
+  ObjectId:"",
   username: "",
   email: "",
 };
@@ -22,7 +22,7 @@ const initialData: IUser = {
 // Define slice config to create function reducer and action
 const userSlice = createSlice({
   name: "user",
-  initialState: { ...initialData },
+  initialState: initialData,
   reducers: {
     setSignIn: (initialState, action) => {
       console.log("CHECK ACTION REDUX FROM USER SIGNIN:", action);

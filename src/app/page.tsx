@@ -2,28 +2,23 @@
 import * as React from "react";
 import { callAPI } from "@/config/axios";
 import Image from "next/image";
+import { apiCall } from "@/helper/apiCall";
+import { dataCategory } from "@/helper/dataCategory";
 
 const Home: React.FunctionComponent = () => {
   const [postsList, setPostsList] = React.useState<any[]>([]);
   const [category, setCategory] = React.useState<string[]>([
     "All",
-    "Teknologi",
-    "Strategi",
-    "Penulisan",
-    "CMS",
-    "SEO",
-    "Motivasi",
-    "UI/UX",
-    "Frontend",
-    "Tutorial",
+    ...dataCategory,
   ]);
+
+  const [articleList, SetArticleList] = React.useState<any[]>([]);
   const [filterCategory, setFilterCategory] = React.useState<string>("All");
 
   const getArticlesList = async () => {
     try {
-      const query = encodeURIComponent(`category='${filterCategory}'`);
-      const { data } = await callAPI.get("/articles");
-      setPostsList(data);
+      const { data } = await apiCall.get("/articles?pageSize=100&sortBy=%60created%60%20desc");
+      SetArticleList(data);
     } catch (error) {
       console.log(error);
     }
@@ -33,8 +28,8 @@ const Home: React.FunctionComponent = () => {
     getArticlesList();
   }, [filterCategory]);
 
-  const printPostsList = () => {
-    return postsList.map((val: any, idx: number) => {
+  const printArticleList = () => {
+    return articleList.map((val: any, idx: number) => {
       return (
         <div
           key={val.objectId}
@@ -85,7 +80,7 @@ const Home: React.FunctionComponent = () => {
           />
           <div className="absolute bottom-0 right-0 w-full p-4 text-right bg-slate-200 bg-opacity-55">
             <p className="text-2xl md:text-4xl lg:text-5xl italic">
-              {postsList[0]?.title}
+              {articleList[0]?.title}
             </p>
           </div>
         </div>
@@ -110,7 +105,7 @@ const Home: React.FunctionComponent = () => {
           </ul>
         </div>
         <div className="w-full h-screen md:grid md:grid-cols-3 xl:grid-cols-5 grid-rows-3 items-center gap-3 space-y-5 md:space-y-0">
-          {printPostsList()}
+          {printArticleList()}
         </div>
       </section>
     </main>

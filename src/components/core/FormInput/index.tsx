@@ -63,6 +63,7 @@ const FormInput: React.FC<IFormInput> = ({
         id={name}
         name={name}
         type={type}
+        ref={ref}
         placeholder={placeholder}
         className="w-full border border-gray-100 px-3 py-2 rounded-md shadow"
         onChange={onChange}

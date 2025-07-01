@@ -7,36 +7,59 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import FormInput from "@/components/core/FormInput";
 import { useRouter } from "next/navigation";
+import { apiCall } from "@/helper/apiCall";
+
 
 const SignUpPage: React.FunctionComponent = () => {
   const router = useRouter();
 
-  // Refs untuk semua field input
-  const firstnameRef = React.useRef<HTMLInputElement>(null);
-  const lastnameRef = React.useRef<HTMLInputElement>(null);
+  // Refs untuk semua field input 
   const usernameRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const confPasswordRef = React.useRef<HTMLInputElement>(null);
+  console.log(usernameRef.current?.value)
 
   const onSignUp = async () => {
     try {
+      // - mengambil value dari form input 
       const username = usernameRef.current?.value || "";
       const email = emailRef.current?.value || "";
       const password = passwordRef.current?.value || "";
       const confPassword = confPasswordRef.current?.value || "";
 
+      
+      // memeriksa apakah semua form sudah diisi
+      if (!(username && email && password && confPassword)) {
+        
+        alert ("Isi semua form input");
+        return
+        
+      }
+      
+      // - memeriksa password
       if (password !== confPassword) {
         alert("Password dan konfirmasi password tidak cocok");
         return;
       }
-      await callAPI.post("/accounts", {
-        username,
-        email,
-        password,
-      });
+
+      console.log(username,email,password)
+
+      // - menyimpan data ke database backendless
+      const response = await apiCall.post(
+        "/accounts",
+         {
+          username,
+          email,
+          password,
+
+         }
+      )
+
+      console.log(response.data);
 
       alert("Pendaftaran akun berhasil");
+      // pindah halaman
       router.push("/sign-in");
     } catch (error) {
       console.error(error);
@@ -73,20 +96,6 @@ const SignUpPage: React.FunctionComponent = () => {
             <CardContent>
               <form>
                 <div className="py-2 md:py-6 space-y-5">
-                  <div className="flex flex-col md:flex-row gap-5 md:gap-8">
-                    <FormInput
-                      type="text"
-                      name="firstname"
-                      label="First name"
-                      ref={firstnameRef}
-                    />
-                    <FormInput
-                      type="text"
-                      name="lastname"
-                      label="Last name"
-                      ref={lastnameRef}
-                    />
-                  </div>
                   <FormInput
                     type="text"
                     name="username"
@@ -94,7 +103,7 @@ const SignUpPage: React.FunctionComponent = () => {
                     ref={usernameRef}
                   />
                   <FormInput
-                    type="text"
+                    type="email"
                     name="email"
                     label="Email"
                     ref={emailRef}
