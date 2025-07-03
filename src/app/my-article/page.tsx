@@ -49,7 +49,7 @@ const PostPage: React.FunctionComponent = () => {
     } else {
       router.replace("/sign-in")
     }
-  }, []);
+  });
 
 
 
@@ -92,8 +92,10 @@ const PostPage: React.FunctionComponent = () => {
   };
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
+
+      
     const { name, value } = e.target;
 
     setFormData(prevData => ({

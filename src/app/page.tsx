@@ -1,17 +1,17 @@
 "use client";
 import * as React from "react";
-import { callAPI } from "@/config/axios";
+
 import Image from "next/image";
 import { apiCall } from "@/helper/apiCall";
 import { dataCategory } from "@/helper/dataCategory";
-import { current } from "@reduxjs/toolkit";
+
 import { useRouter } from "next/navigation";
 
 const Home: React.FunctionComponent = () => {
 
   const router = useRouter();
 
-  const [postsList, setPostsList] = React.useState<any[]>([]);
+  // const [postsList, setPostsList] = React.useState<any[]>([]);
   const [category, setCategory] = React.useState<string[]>([
     "All",
     ...dataCategory,
@@ -47,17 +47,24 @@ const Home: React.FunctionComponent = () => {
 
     // category != "All" ? () : ()
 
-    category != "All" ? ( 
-      SetArticleList(articleContainer), 
+    if (category != "All") {
+
+      SetArticleList(articleContainer) ;
       SetArticleList(currentArticles => 
       currentArticles.filter(article => article.category == category))
 
-    ) : ( SetArticleList(articleContainer) )
+
+    } else {
+
+      SetArticleList(articleContainer)
+
+    }
+    
 
   }
 
   const printArticleList = () => {
-    return articleList.map((val: any, idx: number) => {
+    return articleList.map((val: any) => {
 
       
       return (

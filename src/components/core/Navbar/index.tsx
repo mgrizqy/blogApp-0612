@@ -10,7 +10,7 @@ import { setSignIn, setSignOut } from "@/lib/redux/features/userSlice";
 import { Button } from "@/components/ui/button";
 
 const Navbar: React.FunctionComponent = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const userMail = useAppSelector((state => state.userReducer.email));
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const Navbar: React.FunctionComponent = () => {
 
     keeplogin();
 
-  }, [])
+  })
 
   return (
     <div className="flex items-center justify-between px-6 lg:px-24 py-5">

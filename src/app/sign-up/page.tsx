@@ -2,7 +2,6 @@
 import * as React from "react";
 import Image from "next/image";
 import AccountImage from "../../../public/access_account.svg";
-import { callAPI } from "@/config/axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import FormInput from "@/components/core/FormInput";

@@ -4,10 +4,13 @@ import * as React from 'react';
 import parse from 'html-react-parser'
 
 interface IArticleDetailPageProps {
-    params: { objectId: any };
+    params: Promise<{ objectId: any }>;
+    
 }
 
 const getDetail = async (objectId:any) => {
+
+    
 
     try{
 
@@ -22,13 +25,16 @@ const getDetail = async (objectId:any) => {
         console.log(error)
     }
 
+    
+
 }
 
-const ArticleDetailPage: React.FunctionComponent<IArticleDetailPageProps> = async (props) => {
+const ArticleDetailPage = async ({params} : IArticleDetailPageProps) => {
 
     // console.log(props.params.objectId)
+    const { objectId } = await params;
 
- const detailData = await getDetail(props.params.objectId);
+ const detailData = await getDetail(objectId);
 
     return <div>
         <section className='flex flex-col items-center mt-3'>
