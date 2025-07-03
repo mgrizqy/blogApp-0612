@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+
 import { Button } from '@/components/ui/button';
 
 import {
@@ -33,7 +34,14 @@ interface IAppProps {
     setFormData: any;
 }
 
+
+
 const PostEditDialog: React.FunctionComponent<IAppProps> = ({isDialog, setDialog, formData, handleInputChange, submitEdit, setFormData}) => {
+
+      const [category, setCategory] = React.useState<string[]>([
+        "All",
+        ...dataCategory,
+      ]);
 
   return (
 
@@ -60,7 +68,7 @@ const PostEditDialog: React.FunctionComponent<IAppProps> = ({isDialog, setDialog
                 <Label htmlFor="content-1">Content</Label>
                 <textarea name="content" id="content-1" value={formData.content} onChange={handleInputChange} />
               </div>
-              <div>
+              <div id="category">
                 <Select value={formData.category}
                   onValueChange={value => setFormData({ ...formData, category: value })}
                 >
@@ -68,11 +76,6 @@ const PostEditDialog: React.FunctionComponent<IAppProps> = ({isDialog, setDialog
                     <SelectValue placeholder="Select Category" onChange={handleInputChange} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Business">Business</SelectItem>
-                    <SelectItem value="Technology">Technology</SelectItem>
-                    <SelectItem value="Economics">Economics</SelectItem>
-                    <SelectItem value="Lifestyle">Lifestyle</SelectItem>
-                    <SelectItem value="Goverment">Goverment</SelectItem>
                     {dataCategory.map((val:string) => {
                         return <SelectItem key={val} value={val}>{val}</SelectItem>
                     })}

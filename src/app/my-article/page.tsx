@@ -17,6 +17,7 @@ import { useState } from "react";
 
 import { toast } from "react-toastify";
 import PostEditDialog from "./components/PostDialog";
+import { dataCategory } from "@/helper/dataCategory";
 
 const PostPage: React.FunctionComponent = () => {
   const router = useRouter();
@@ -42,7 +43,12 @@ const PostPage: React.FunctionComponent = () => {
 
   // useEffect hanya akan menjalankan fungsi didalamnya sekali saat pertama kali render halaman
   React.useEffect(() => {
-    getArticlesList();
+    if (localStorage.getItem("tkn")) {
+
+      getArticlesList();
+    } else {
+      router.replace("/sign-in")
+    }
   }, []);
 
 
@@ -166,6 +172,8 @@ const PostPage: React.FunctionComponent = () => {
   // const test = () => 
 
 
+
+
   const onCreateArticle = async () => {
     try {
       if (articleTitleRef.current) {
@@ -209,11 +217,9 @@ const PostPage: React.FunctionComponent = () => {
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Business">Business</SelectItem>
-                <SelectItem value="Technology">Technology</SelectItem>
-                <SelectItem value="Economics">Economics</SelectItem>
-                <SelectItem value="Lifestyle">Lifestyle</SelectItem>
-                <SelectItem value="Goverment">Goverment</SelectItem>
+                {dataCategory.map((val: string) => {
+                  return <SelectItem key={val} value={val}>{val}</SelectItem>
+                })}
               </SelectContent>
             </Select>
           </div>

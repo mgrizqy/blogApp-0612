@@ -4,21 +4,34 @@ import { callAPI } from "@/config/axios";
 import Image from "next/image";
 import { apiCall } from "@/helper/apiCall";
 import { dataCategory } from "@/helper/dataCategory";
+import { current } from "@reduxjs/toolkit";
+import { useRouter } from "next/navigation";
 
 const Home: React.FunctionComponent = () => {
+
+  const router = useRouter();
+
   const [postsList, setPostsList] = React.useState<any[]>([]);
   const [category, setCategory] = React.useState<string[]>([
     "All",
     ...dataCategory,
   ]);
 
+  // const filteredArticleList = filterCategory === 'All'
+  //   ? articleList 
+  //   : articleList.filter(item => item.category === filterCategory);
+
   const [articleList, SetArticleList] = React.useState<any[]>([]);
+  const [articleContainer, SetArticleContainer] = React.useState<any[]>([]);
   const [filterCategory, setFilterCategory] = React.useState<string>("All");
 
   const getArticlesList = async () => {
     try {
       const { data } = await apiCall.get("/articles?pageSize=100&sortBy=%60created%60%20desc");
-      SetArticleList(data);
+
+        SetArticleList(data);
+        SetArticleContainer(data);
+
     } catch (error) {
       console.log(error);
     }
@@ -26,14 +39,32 @@ const Home: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     getArticlesList();
-  }, [filterCategory]);
+  }, []);
+
+  const updateCategory = (category : string) => {
+
+    setFilterCategory(category);
+
+    // category != "All" ? () : ()
+
+    category != "All" ? ( 
+      SetArticleList(articleContainer), 
+      SetArticleList(currentArticles => 
+      currentArticles.filter(article => article.category == category))
+
+    ) : ( SetArticleList(articleContainer) )
+
+  }
 
   const printArticleList = () => {
     return articleList.map((val: any, idx: number) => {
+
+      
       return (
         <div
           key={val.objectId}
           className="h-72 items-center bg-white rounded-xl cursor-pointer"
+          onClick={()=>router.push(`/article/${val.objectId}`)}
         >
           <div className="relative h-36 w-full">
             <Image
@@ -92,11 +123,8 @@ const Home: React.FunctionComponent = () => {
             {category.map((val: string) => (
               <li key={val}>
                 <span
-                  className={`border ${
-                    filterCategory === val &&
-                    "bg-slate-500 text-white font-semibold"
-                  } border-slate-500 rounded-full py-1 px-4 cursor-pointer`}
-                  onClick={() => setFilterCategory(val)}
+                  className={`border ${filterCategory === val && "bg-slate-500 text-white font-semibold"} border-slate-500 rounded-full py-1 px-4 cursor-pointer`}
+                  onClick={() => {updateCategory(val); console.log(val)}}
                 >
                   {val}
                 </span>

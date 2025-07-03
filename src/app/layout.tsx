@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto, Poppins } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 import Navbar from "@/components/core/Navbar";
@@ -7,6 +7,16 @@ import { ToastContainer } from "react-toastify"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
+const poppins = Poppins({
+  weight:"300",
+  variable: "--font-poppins",
   subsets: ["latin"],
 });
 
@@ -29,7 +39,7 @@ export default function RootLayout({
     <html lang="en">
       <StoreProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${poppins.variable}  antialiased`}
         >
           <ToastContainer/>
           <Navbar />

@@ -118,5 +118,13 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Poppins';
+  }
+
+  .marginParagraph p {
+
+   @apply mb-9
+
   }
 }
+

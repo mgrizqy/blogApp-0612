@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/lib/redux/hooks";
 import { setSignIn } from "@/lib/redux/features/userSlice";
 
 
+
 const SignInPage: React.FunctionComponent = () => {
   const router = useRouter()
   const dispatch = useAppDispatch();
@@ -41,9 +42,14 @@ const SignInPage: React.FunctionComponent = () => {
         return
       }
 
+      
+      
       dispatch(setSignIn(res.data[0])) // this what make the sign in and change in the navbar happen
       console.log(res.data);
-
+      
+      //Store objectId to localStorage
+      localStorage.setItem("tkn",res.data[0].objectId)
+      
       alert("Selamat datang")
       router.replace("/");
     } catch (error) {
@@ -51,7 +57,16 @@ const SignInPage: React.FunctionComponent = () => {
       alert("Something went wrong");
     }
   };
+  
+  React.useEffect(() => {
 
+    if (localStorage.getItem("tkn")) {
+
+      router.replace("/");
+
+    }
+
+  })
   return (
     <div className="h-screen px-10">
       <div className="container m-auto flex flex-col md:flex-row items-center gap-5 md:gap-16">
